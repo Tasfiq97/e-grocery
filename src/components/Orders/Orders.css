@@ -1,0 +1,11 @@
+.review-items-container{
+    margin: 0 auto;
+}
+.order-container{
+    display: grid;
+    grid-template-columns: 4fr 1fr
+}
+.carts-container{
+    background-color: rgba(171, 158, 137, 0.876);
+   
+}

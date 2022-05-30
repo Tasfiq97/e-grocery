@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.shop-container{
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+    font-family: 'Poppins', sans-serif;
+}
+.filter-container{
+    padding: 18px;
+    margin-top: 60px;
+    
+}
+.products-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 120px 30px;
+}
+.cart-container{
+    background-color: rgba(171, 158, 137, 0.876);
+}
+
+.filter-btn{
+    width: 150px;
+    font-size:17px;
+    margin:10px 0px;
+    background:orange;
+    padding: 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    border:none;
+    margin-left: 15px;
+}
+.filter-btn:focus{
+    background-color: rgb(229, 246, 133);
+}
+@media screen and (max-width:1100px) {
+    .products-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
