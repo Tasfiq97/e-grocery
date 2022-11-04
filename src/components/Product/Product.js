@@ -13,15 +13,6 @@ const Product = ({product, handleAddToCart}) => {
             <div className='product-info'>
                 <p className='product-name'>{name}</p>
                 <p style={{color:"red",fontWeight:"bold"}}>Price: ${price}</p>
-                <p><small>Seller: {seller}</small></p>
-                <span style={{fontSize:"15px"}}>Ratings: <Rating
-                style={{fontSize:"8px",color:"orange"}}
-                  initialRating={ratings}
-                  readonly
-                  emptySymbol="fa fa-star-o fa-2x"
-                  fullSymbol="fa fa-star fa-2x"
-/></span> <small>({ratingsCount})</small>
-<p style={{marginBottom:"20px"}}>{stock} stocks availble</p>
             </div>
             <button onClick={() => handleAddToCart(product)} className='btn-cart'>
                 <p className='btn-text'>Add to Cart</p>

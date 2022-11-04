@@ -3,6 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const Shipment = () => {
@@ -27,17 +28,30 @@ const Shipment = () => {
         setPhone(event.target.value);
     }
 
-    const handleCreateUser = event =>{
+    const handleCreateUser = (event) =>{
         event.preventDefault();
-        const shipping = {name, email, address, phone};
-        swal({
-            title: "Good job!",
-            text: "Order placed successfully",
-            icon: "success",
-            button: "Ok",
-          })
-          navigate("/shop")
-          localStorage.clear()
+        const shipping = {name, email:user?.email, address, phone};
+        localStorage.setItem("Info",JSON.stringify(shipping));
+       const cart =JSON.parse(localStorage.getItem("totalCart"));
+       navigate("/payment")
+    // const data= axios.post("http://localhost:5000/orders",cart).then(data=>{
+    // //     if (data.status===200){
+    //         swal({
+    //             title: "Good job!",
+    //             text: "Order placed successfully",
+    //             icon: "success",
+    //             button: "Ok",
+    //           })
+    // //           navigate("/home")
+    // //           localStorage.clear()
+    // //     }
+    //     else{
+    //         alert("something wrong")
+    //     }
+    // }
+    // );
+    
+       
 
         }
 
@@ -52,7 +66,7 @@ const Shipment = () => {
                     </div>
                     <div className="input-group">
                         <label htmlFor="email">Your Email</label>
-                        <input value={user?.email} readOnly type="email" name="email" id="" required/>
+                        <input value={user?.email} type="email" name="email" id="" readOnly/>
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Address</label>

@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import useProducts from '../../hooks/useProducts';
-import { addToDb, getStoredCart } from '../../utilities/fakedb';
-import Cart from '../Cart/Cart';
-import Product from '../Product/Product';
-import './Shop.css';
+import { addToDb, getStoredCart } from '../../../utilities/fakedb';
+import Cart from '../../Cart/Cart';
+import MeatProduct from './MeatProduct';
 
-const Shop = () => {
-    const [products, setProducts] = useProducts();
-    const [filterProducts,setFilterProducts]=useState([]);
+
+const Meat = () => {
+    const [meat,setMeat]=useState([])
     const [cart, setCart] = useState([]);
-    useEffect( () =>{
-        fetch('products.json')
-        .then(res => res.json())
-        .then(data => {
-            setFilterProducts(data)
-        });
-    }, [products]);
-    useEffect( () =>{
+    useEffect(()=>{
+        fetch("./products.json")
+        .then(res=>res.json())
+        .then(data=>{
+          const filterData= data.filter(data=>data.category=="Meat");
+          setMeat(filterData)
+        })
+       },[])
+       
+       useEffect( () =>{
         const storedCart = getStoredCart();
         const savedCart = [];
         for(const id in storedCart){
-            const addedProduct = products.find(product => product.id === id);
+            const addedProduct = meat.find(product => product.id === id);
             if(addedProduct){
                 const quantity = storedCart[id];
                 addedProduct.quantity = quantity;
@@ -29,7 +31,7 @@ const Shop = () => {
             }
         }
         setCart(savedCart);
-    }, [products])
+    }, [meat])
 
     const handleAddToCart = (selectedProduct) =>{
         let newCart = [];
@@ -47,22 +49,18 @@ const Shop = () => {
         setCart(newCart);
         addToDb(selectedProduct.id);
     }
-
-    const filterdItem=(category)=>{
-       const updatedItem=products.filter(elem=>elem.category===category)
-       setFilterProducts(updatedItem);
-    }
-
+    
+ 
     return (
-        <div className='shop-container'>
-           
+        <div className='veg-container'>
+             
             <div className="products-container">
                 {
-                    filterProducts.map(product=><Product 
+                    meat?.map(product=><MeatProduct
                         key={product.id}
                         product={product}
                         handleAddToCart={handleAddToCart}
-                        ></Product>)
+                        ></MeatProduct>)
                 }
             </div>
             <div className="cart-container">
@@ -72,8 +70,9 @@ const Shop = () => {
                     </Link>
                 </Cart>
             </div>
+
         </div>
     );
 };
 
-export default Shop;
+export default Meat;

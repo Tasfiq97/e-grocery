@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -7,6 +8,7 @@ import './Login.css';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const [
         signInWithEmailAndPassword,
         user,
@@ -30,9 +32,10 @@ const Login = () => {
         navigate(from, {replace: true});
     }
 
-    const handleUserSignIn = event => {
+    const handleUserSignIn = async(event) => {
         event.preventDefault();
         signInWithEmailAndPassword(email, password);
+    
     }
 
     return (
@@ -54,8 +57,8 @@ const Login = () => {
                     }
                     <input className='form-submit' type="submit" value="Login" />
                 </form>
-                <p>
-                    New to Ema-John? <Link className='form-link' to="/signup">Create an account</Link>
+                <p style={{marginBottom:"30px"}}>
+                    New to E-Grocery <Link className='form-link' to="/signup">Create an account</Link>
                 </p>
             </div>
         </div>

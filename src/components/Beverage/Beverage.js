@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import useProducts from '../../hooks/useProducts';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
-import Product from '../Product/Product';
-import './Shop.css';
+import BevarageProduct from './BevarageProduct';
 
-const Shop = () => {
-    const [products, setProducts] = useProducts();
-    const [filterProducts,setFilterProducts]=useState([]);
+const Beverage = () => {
+    const [beverage,setBeverage]=useState([])
     const [cart, setCart] = useState([]);
-    useEffect( () =>{
-        fetch('products.json')
-        .then(res => res.json())
-        .then(data => {
-            setFilterProducts(data)
-        });
-    }, [products]);
-    useEffect( () =>{
+
+    useEffect(()=>{
+        fetch("./products.json")
+        .then(res=>res.json())
+        .then(data=>{
+          const filterData= data.filter(data=>data.category=="Beverage");
+          setBeverage(filterData)
+        })
+       },[])
+       useEffect( () =>{
         const storedCart = getStoredCart();
         const savedCart = [];
         for(const id in storedCart){
-            const addedProduct = products.find(product => product.id === id);
+            const addedProduct = beverage.find(product => product.id === id);
             if(addedProduct){
                 const quantity = storedCart[id];
                 addedProduct.quantity = quantity;
@@ -29,7 +28,7 @@ const Shop = () => {
             }
         }
         setCart(savedCart);
-    }, [products])
+    }, [beverage])
 
     const handleAddToCart = (selectedProduct) =>{
         let newCart = [];
@@ -48,32 +47,32 @@ const Shop = () => {
         addToDb(selectedProduct.id);
     }
 
-    const filterdItem=(category)=>{
-       const updatedItem=products.filter(elem=>elem.category===category)
-       setFilterProducts(updatedItem);
-    }
 
     return (
-        <div className='shop-container'>
-           
-            <div className="products-container">
-                {
-                    filterProducts.map(product=><Product 
-                        key={product.id}
-                        product={product}
-                        handleAddToCart={handleAddToCart}
-                        ></Product>)
-                }
-            </div>
-            <div className="cart-container">
+        <div className='veg-container'>
+             
+        <div className="products-container">
+            {
+                beverage?.map(product=><BevarageProduct
+                    key={product.id}
+                    product={product}
+                    handleAddToCart={handleAddToCart}
+                    ></BevarageProduct>)
+            }
+        </div>
+
+
+
+        <div className="cart-container">
                 <Cart cart={cart}>
                 <Link to="/orders">
                         <button  style={{fontSize:"15px",padding:"15px",background:"orange",border:"none",cursor:"pointer"}}>Review Order </button>
                     </Link>
                 </Cart>
             </div>
-        </div>
+
+    </div>
     );
 };
 
-export default Shop;
+export default Beverage;

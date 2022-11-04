@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
+import axios from 'axios';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ const SignUp = () => {
         navigate('/shop');
     }
 
-    const handleCreateUser = event =>{
+    const handleCreateUser = async( event) =>{
         event.preventDefault();
         if(password !== confirmPassword){
             setError('Your two passwords did not match');
@@ -40,6 +41,11 @@ const SignUp = () => {
         }
         
         createUserWithEmailAndPassword(email, password);
+        let data={};
+        data.email=email;
+        data.password=password;
+        data.role="user"
+        const fetch= await axios.post("http://localhost:5000/users",data).then(result=>console.log(result))
         localStorage.clear();
     }
 

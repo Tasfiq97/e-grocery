@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
 import useProducts from '../../hooks/useProducts';
@@ -11,16 +11,16 @@ const Orders = () => {
     const [products, setProducts] = useProducts();
     const [cart, setCart] = useCart(products);
     const navigate = useNavigate();
+    
     const handleRemoveProduct = product =>{
         const rest = cart.filter(pd => pd.id !== product.id);
         setCart(rest);
         removeFromDb(product.id);
     }
-
-    console.log(cart);
    
 
     const handleShipping=()=>{
+        console.log(JSON.parse(localStorage.getItem("totalCart")));
         if(cart.length===0){
             alert("please order first")
             navigate("/shop")
@@ -30,6 +30,7 @@ const Orders = () => {
        }
        
     }
+  
     
     return (
         <div className='order-container'>
@@ -45,7 +46,7 @@ const Orders = () => {
             </div>
             <div className="carts-container">
                 <Cart cart={cart}>
-                        <button style={{fontSize:"15px",padding:"15px",background:"orange",border:"none",cursor:"pointer"}} onClick={handleShipping}>Proceed Shipping </button>
+                        <button  style={{fontSize:"15px",padding:"15px",background:"orange",border:"none",cursor:"pointer"}} onClick={handleShipping}>Proceed Shipping </button>
                 </Cart>
             </div>
         </div>
